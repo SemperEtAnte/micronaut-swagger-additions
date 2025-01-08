@@ -1,0 +1,10 @@
+plugins {
+    id 'java'
+}
+group = 'ru.semperante'
+version = mainVersion
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}

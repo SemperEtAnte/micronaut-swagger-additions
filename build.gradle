@@ -1,0 +1,11 @@
+group = 'ru.semperante'
+repositories {
+    mavenCentral()
+}
+
+allprojects {
+    ext {
+        mainVersion = '1.0'
+        micronautVersion = "4.3.6"
+    }
+}

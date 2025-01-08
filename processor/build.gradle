@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id("io.micronaut.library") version "4.4.0"
+    id 'maven-publish'
+}
+group = 'ru.semperante'
+version = mainVersion
+
+nativeCompile.enabled = false
+repositories {
+    mavenCentral()
+}
+jar {
+    from (project.sourceSets.main.output.classesDirs)
+    from project(':shared-sources').sourceSets.main.output.classesDirs
+}
+tasks.register('sourceJar', Jar) {
+    from sourceSets.main.allJava
+    from project(':shared-sources').sourceSets.main.allJava
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("21")
+    targetCompatibility = JavaVersion.toVersion("21")
+}
+dependencies {
+
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.2'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.18.2'
+    compileOnly("io.micronaut.openapi:micronaut-openapi-annotations:4.3.11")
+    compileOnly("io.micronaut:micronaut-http-client:4.3.11")
+    compileOnly project(":shared-sources")
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId = 'ru.semperante'
+            artifactId = 'micronaut-swagger-library'
+            version = mainVersion
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
