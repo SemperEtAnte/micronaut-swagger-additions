@@ -11,4 +11,5 @@ rootProject.name = 'micronaut-swagger'
 include 'shared-sources'
 include 'processor'
 include 'plugin'
+include 'aot-plugin'
 

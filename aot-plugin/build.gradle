@@ -1,16 +1,18 @@
 plugins {
     id 'java'
-    id("io.micronaut.library") version "4.4.0"
     id 'maven-publish'
     id 'signing'
 }
 group = 'ru.semperante'
 version = mainVersion
 
-nativeCompile.enabled = false
 repositories {
     mavenCentral()
 }
+project(':shared-sources') {
+    apply plugin: 'java'
+}
+
 jar {
     from (project.sourceSets.main.output.classesDirs)
     from project(':shared-sources').sourceSets.main.output.classesDirs
@@ -36,7 +38,7 @@ publishing {
         mavenJava(MavenPublication) {
             from components.java
             groupId = 'ru.semperante'
-            artifactId = 'micronaut-swagger-library'
+            artifactId = 'micronaut-swagger-aot-plugin'
             version = mainVersion
             pom {
                 packaging = "jar"
@@ -70,10 +72,11 @@ publishing {
     }
 }
 dependencies {
+    implementation 'io.micronaut.aot:micronaut-aot-api:2.6.0'
+    implementation 'io.micronaut.aot:micronaut-aot-core:2.6.0'
 
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.2'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.18.2'
-    compileOnly("io.micronaut.openapi:micronaut-openapi-annotations:4.3.11")
-    compileOnly("io.micronaut:micronaut-http-client:4.3.11")
-    compileOnly project(":shared-sources")
+}
+
+test {
+    useJUnitPlatform()
 }

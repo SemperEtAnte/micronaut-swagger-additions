@@ -10,7 +10,6 @@ import java.lang.annotation.Target;
  * <p>
  * List names of public static fields that will be searched inside classes marked by {@link ExceptionHolder}
  * Example controller:
- * </p>
  * <p>
  * <pre>
  * {@code
@@ -22,7 +21,6 @@ import java.lang.annotation.Target;
  *    }
  * }
  * </pre>
- * </p>
  * <p>
  * Example holder:
  * <pre>
@@ -35,7 +33,6 @@ import java.lang.annotation.Target;
  * }
  * }
  * </pre>
- * </p>
  */
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.METHOD)

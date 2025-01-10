@@ -1,11 +1,10 @@
-group = 'ru.semperante'
 repositories {
     mavenCentral()
 }
-
+group = 'ru.semperante'
 allprojects {
     ext {
-        mainVersion = '1.0'
+        mainVersion = '1.6'
         micronautVersion = "4.3.6"
     }
 }
