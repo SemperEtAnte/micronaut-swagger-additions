@@ -1,4 +1,4 @@
-package ru.semperante.swagger.plugin.utils;
+package ru.semperante.utils;
 
 import java.util.Map;
 

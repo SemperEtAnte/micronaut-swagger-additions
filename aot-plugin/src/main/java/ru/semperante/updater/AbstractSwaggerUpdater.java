@@ -1,14 +1,14 @@
-package ru.semperante.swagger.plugin.updater;
+package ru.semperante.updater;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.gradle.api.Task;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.semperante.swagger.models.Additions;
 import ru.semperante.swagger.models.SwaggerAdditionsModel;
-import ru.semperante.swagger.plugin.utils.TempExceptionHolder;
+import ru.semperante.utils.TempExceptionHolder;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,20 +17,16 @@ import java.util.Map;
 import java.util.Set;
 
 public abstract class AbstractSwaggerUpdater implements ISwaggerUpdater {
-   private final Logger logger;
-
-   protected AbstractSwaggerUpdater(Task task) {
-      this.logger = task.getLogger();
-   }
+   private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSwaggerUpdater.class);;
 
    @Override
    public void process(File additionsFile, File mainFile, Map<String, TempExceptionHolder> examples) throws IOException {
       if (!mainFile.exists()) {
-         logger.error("Main swagger file is not found. Was expecting at: {}", mainFile.getAbsoluteFile());
+         LOGGER.error("Main swagger file is not found. Was expecting at: {}", mainFile.getAbsoluteFile());
          return;
       }
       if (!additionsFile.exists()) {
-         logger.error("No additions file found. Maybe annotation processor wasn't called. Was expecting at: {}", additionsFile.getAbsoluteFile());
+         LOGGER.error("No additions file found. Maybe annotation processor wasn't called. Was expecting at: {}", additionsFile.getAbsoluteFile());
          return;
       }
       ObjectMapper mapper = getMapper();
@@ -83,20 +79,20 @@ public abstract class AbstractSwaggerUpdater implements ISwaggerUpdater {
                                     }
                                  }
                               } else {
-                                 logger.warn("Example not found for uri {} and field {}. Maybe no such field inside holders", ad.getUri(), nm);
+                                 LOGGER.warn("Example not found for uri {} and field {}. Maybe no such field inside holders", ad.getUri(), nm);
                               }
                            }
                         }
                      }
                   } else {
-                     logger.error("Method {} for path {} not found", ad.getMethod(), ad.getUri());
+                     LOGGER.error("Method {} for path {} not found", ad.getMethod(), ad.getUri());
                   }
                } else {
-                  logger.error("Path {} not found", ad.getUri());
+                  LOGGER.error("Path {} not found", ad.getUri());
                }
             }
          } else {
-            logger.error("Cannot find \"paths\" segment of main yml file. Or it's not an object (maybe spec changed?)");
+            LOGGER.error("Cannot find \"paths\" segment of main yml file. Or it's not an object (maybe spec changed?)");
          }
          if (!tagsToAdd.isEmpty()) {
             JsonNode node = mainNode.get("tags");
@@ -115,7 +111,7 @@ public abstract class AbstractSwaggerUpdater implements ISwaggerUpdater {
          }
          mapper.writeValue(mainFile, mainNode);
       } else {
-         logger.error("Main node not found or is not an object.");
+         LOGGER.error("Main node not found or is not an object.");
       }
    }
 

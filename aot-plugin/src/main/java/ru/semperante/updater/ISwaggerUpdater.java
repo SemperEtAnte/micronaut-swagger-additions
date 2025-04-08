@@ -1,6 +1,7 @@
-package ru.semperante.swagger.plugin.updater;
+package ru.semperante.updater;
 
-import ru.semperante.swagger.plugin.utils.TempExceptionHolder;
+
+import ru.semperante.utils.TempExceptionHolder;
 
 import java.io.File;
 import java.io.IOException;

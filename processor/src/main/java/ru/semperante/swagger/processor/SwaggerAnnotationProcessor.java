@@ -51,7 +51,7 @@ public class SwaggerAnnotationProcessor extends AbstractProcessor {
          try (Writer writer = handlers.openWriter()) {
             for (Element element : roundEnv.getElementsAnnotatedWith(ExceptionHolder.class)) {
                if (element instanceof TypeElement te) {
-                  hl.handlers().add(te.getQualifiedName().toString());
+                  hl.getHandlers().add(te.getQualifiedName().toString());
                }
             }
             MAPPER.writeValue(writer, hl);
@@ -65,7 +65,7 @@ public class SwaggerAnnotationProcessor extends AbstractProcessor {
          try (Writer writer = additions.openWriter()) {
             for (Element element : roundEnv.getElementsAnnotatedWith(ExceptionHolder.class)) {
                if (element instanceof TypeElement te) {
-                  hl.handlers().add(te.getQualifiedName().toString());
+                  hl.getHandlers().add(te.getQualifiedName().toString());
                }
             }
             MAPPER.writeValue(writer, swaggerAdditionsModel);
