@@ -1,10 +1,13 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     id 'java'
     id("io.micronaut.library") version "4.4.0"
     id 'maven-publish'
     id 'signing'
+    id "com.vanniktech.maven.publish" version "0.30.0"
 }
-group = 'ru.semperante'
+group = 'io.github.semperetante'
 version = mainVersion
 
 nativeCompile.enabled = false
@@ -27,44 +30,37 @@ javadoc{
 java {
     sourceCompatibility = JavaVersion.toVersion("21")
     targetCompatibility = JavaVersion.toVersion("21")
-
-    withJavadocJar()
-    withSourcesJar()
 }
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            groupId = 'ru.semperante'
-            artifactId = 'micronaut-swagger-library'
-            version = mainVersion
-            pom {
-                packaging = "jar"
-                name.set("SemperAnte Micronaut-Swagger annotations")
-                url.set("https://github.com/SemperEtAnte/micronaut-swagger-additions")
-                version = project.version
-                description.set("Improved swagger doc with micronaut")
 
-                licenses {
-                    license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                    }
-                }
+mavenPublishing{
+    coordinates(project.group as String, 'micronaut-swagger-processor', project.version as String)
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    signAllPublications()
+    pom {
+        packaging = "jar"
+        name.set("micronaut-swagger-library")
+        url.set("https://github.com/SemperEtAnte/micronaut-swagger-additions")
+        version = project.version
+        description.set("Improved swagger doc with micronaut")
 
-                scm {
-                    connection.set("scm:https://github.com/SemperEtAnte/micronaut-swagger-additions.git")
-                    developerConnection.set("scm:git@github.com:SemperEtAnte/micronaut-swagger-additions.git")
-                    url.set("https://github.com/SemperEtAnte/micronaut-swagger-additions")
-                }
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+            }
+        }
 
-                developers {
-                    developer {
-                        id.set("SemperAnte")
-                        name.set("George Troshin")
-                        email.set("zhorik280999@gmail.com")
-                    }
-                }
+        scm {
+            connection.set("scm:https://github.com/SemperEtAnte/micronaut-swagger-additions.git")
+            developerConnection.set("scm:git@github.com:SemperEtAnte/micronaut-swagger-additions.git")
+            url.set("https://github.com/SemperEtAnte/micronaut-swagger-additions")
+        }
+
+        developers {
+            developer {
+                id.set("SemperAnte")
+                name.set("George Troshin")
+                email.set("zhorik280999@gmail.com")
             }
         }
     }

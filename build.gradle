@@ -1,10 +1,13 @@
+plugins {
+    id "com.vanniktech.maven.publish" version "0.30.0" apply(false)
+}
 repositories {
     mavenCentral()
 }
 group = 'ru.semperante'
 allprojects {
     ext {
-        mainVersion = '1.7'
+        mainVersion = '1.0'
         micronautVersion = "4.7.1"
     }
 }

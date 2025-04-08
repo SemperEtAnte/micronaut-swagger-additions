@@ -1,9 +1,12 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     id 'java'
     id 'maven-publish'
     id 'signing'
+    id "com.vanniktech.maven.publish" version "0.30.0"
 }
-group = 'ru.semperante'
+group = 'io.github.semperetante'
 version = mainVersion
 
 repositories {
@@ -14,7 +17,7 @@ project(':shared-sources') {
 }
 
 jar {
-    from (project.sourceSets.main.output.classesDirs)
+    from(project.sourceSets.main.output.classesDirs)
     from project(':shared-sources').sourceSets.main.output.classesDirs
 }
 tasks.register('sourcesJar', Jar) {
@@ -22,55 +25,48 @@ tasks.register('sourcesJar', Jar) {
     from sourceSets.main.allJava
     from project(':shared-sources').sourceSets.main.allJava
 }
-javadoc{
+javadoc {
     source sourceSets.main.allJava
     source project(":shared-sources").sourceSets.main.allJava
 }
 java {
     sourceCompatibility = JavaVersion.toVersion("21")
     targetCompatibility = JavaVersion.toVersion("21")
-
-    withJavadocJar()
-    withSourcesJar()
 }
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            groupId = 'ru.semperante'
-            artifactId = 'micronaut-swagger-aot-plugin'
-            version = mainVersion
-            pom {
-                packaging = "jar"
-                name.set("SemperAnte Micronaut-Swagger annotations")
-                url.set("https://github.com/SemperEtAnte/micronaut-swagger-additions")
-                version = project.version
-                description.set("Improved swagger doc with micronaut")
+mavenPublishing {
+    coordinates(project.group as String, 'micronaut-swagger-aot', project.version as String)
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    signAllPublications()
+    pom {
+        packaging = "jar"
+        name.set("micronaut-swagger-aot-plugin")
+        url.set("https://github.com/SemperEtAnte/micronaut-swagger-additions")
+        version = project.version
+        description.set("Improved swagger doc with micronaut")
 
-                licenses {
-                    license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                    }
-                }
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+            }
+        }
 
-                scm {
-                    connection.set("scm:https://github.com/SemperEtAnte/micronaut-swagger-additions.git")
-                    developerConnection.set("scm:git@github.com:SemperEtAnte/micronaut-swagger-additions.git")
-                    url.set("https://github.com/SemperEtAnte/micronaut-swagger-additions")
-                }
+        scm {
+            connection.set("scm:https://github.com/SemperEtAnte/micronaut-swagger-additions.git")
+            developerConnection.set("scm:git@github.com:SemperEtAnte/micronaut-swagger-additions.git")
+            url.set("https://github.com/SemperEtAnte/micronaut-swagger-additions")
+        }
 
-                developers {
-                    developer {
-                        id.set("SemperAnte")
-                        name.set("George Troshin")
-                        email.set("zhorik280999@gmail.com")
-                    }
-                }
+        developers {
+            developer {
+                id.set("SemperAnte")
+                name.set("George Troshin")
+                email.set("zhorik280999@gmail.com")
             }
         }
     }
 }
+
 dependencies {
     implementation("io.micronaut:micronaut-http-client:4.3.11")
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.18.2'
