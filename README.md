@@ -20,9 +20,7 @@ dependencies {
     aotPlugins("io.github.semperetante:micronaut-swagger-aot-plugin:1.0")
     //...
 }
-
-
-
+//...
 micronaut {
    //...
     aot {
