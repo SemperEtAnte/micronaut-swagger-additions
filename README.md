@@ -15,9 +15,9 @@ Add this to your `build.gradle`:
 
 dependencies {
     //...
-    annotationProcessor("io.github.semperetante:micronaut-swagger-library:1.0")
-    compileOnly("io.github.semperetante:micronaut-swagger-library:1.0")
-    aotPlugins("io.github.semperetante:micronaut-swagger-aot-plugin:1.0")
+    annotationProcessor "io.github.semperetante:micronaut-swagger-processor:1.0"
+    compileOnly 'io.github.semperetante:micronaut-swagger-processor:1.0'
+    aotPlugins 'io.github.semperetante:micronaut-swagger-aot:1.0'
     //...
 }
 //...
